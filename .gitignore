@@ -1,0 +1,6 @@
+.idea
+/configs
+.log
+/docker/.env
+/docker/logs_ada_telegram_bot.txt
+info.txt
