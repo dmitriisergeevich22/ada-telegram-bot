@@ -4,7 +4,7 @@ services:
 
   db:
     image: ${DB_IMAGE}
-    container_name: ada_db
+    container_name: ada-db
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -19,7 +19,7 @@ services:
   app:
     build: ..
     restart: always
-    container_name: ada_app
+    container_name: ada-app
     depends_on:
       - db
     environment:

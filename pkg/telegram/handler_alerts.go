@@ -15,7 +15,7 @@ import (
 
 // Оповещение о предстоящих событиях.
 func (b *BotTelegram) alertTicker() error {
-	timeAlert := viper.GetInt("ada_bot.time_alert")
+	timeAlert := viper.GetInt("ada_bot.speed_chek_alert")
 	if timeAlert == 0 {
 		timeAlert = 10
 	}
