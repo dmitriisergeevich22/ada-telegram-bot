@@ -1,9 +1,9 @@
 package telegram
 
 import (
-	"AdaTelegramBot/internal/models"
-	"AdaTelegramBot/internal/sdk"
-	"AdaTelegramBot/internal/subscriber_parser"
+	"ada-telegram-bot/pkg/models"
+	"ada-telegram-bot/pkg/service"
+	"ada-telegram-bot/pkg/subscriber"
 	"fmt"
 	"time"
 )
@@ -29,7 +29,7 @@ func createTextAdEventDescription(a *models.AdEvent) (descriptionAdEvent string)
 	}
 
 	if a.SubscribersOfChannel == 0 {
-		a.SubscribersOfChannel, _ = subscriber_parser.Parse(a.Channel)
+		a.SubscribersOfChannel, _ = subscriber.Parse(a.Channel)
 	}
 
 	switch a.Type {
@@ -165,7 +165,7 @@ func getTextTime(minutes int64) string {
 
 // Возвращает пример даты.
 func getTextExampleDate() (string, error) {
-	date, err := sdk.ParseTimeToUserDate(time.Now())
+	date, err := service.ParseTimeToUserDate(time.Now())
 	if err != nil {
 		return "", err
 	}

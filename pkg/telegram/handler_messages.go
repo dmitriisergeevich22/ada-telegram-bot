@@ -1,9 +1,9 @@
 package telegram
 
 import (
-	"AdaTelegramBot/internal/models"
-	"AdaTelegramBot/internal/sdk"
-	"AdaTelegramBot/internal/subscriber_parser"
+	"ada-telegram-bot/pkg/models"
+	"ada-telegram-bot/pkg/subscriber"
+	"ada-telegram-bot/pkg/service"
 	"fmt"
 	"log"
 	"strconv"
@@ -112,7 +112,7 @@ func adEventPartner(b *BotTelegram, msg *tgbotapi.Message) error {
 	userId := msg.Chat.ID
 
 	if !models.RegxUrlType1.MatchString(msg.Text) && !models.RegxUrlType2.MatchString(msg.Text) {
-		botMsg := tgbotapi.NewMessage(userId, "Вы отправили некорректную ссылку на пользователя, попробуйте снова.\n" + getExamplePartnerUrl())
+		botMsg := tgbotapi.NewMessage(userId, "Вы отправили некорректную ссылку на пользователя, попробуйте снова.\n"+getExamplePartnerUrl())
 		botMsg.ParseMode = tgbotapi.ModeHTML
 		if err := b.sendMessage(userId, botMsg); err != nil {
 			return err
@@ -161,7 +161,7 @@ func adEventChannel(b *BotTelegram, msg *tgbotapi.Message) error {
 	}
 
 	if !models.RegxUrlType1.MatchString(msg.Text) && !models.RegxUrlType2.MatchString(msg.Text) {
-		botMsg := tgbotapi.NewMessage(userId, "Вы отправили некорректную ссылку на канал, попробуйте снова." + getExampleChannelUrl())
+		botMsg := tgbotapi.NewMessage(userId, "Вы отправили некорректную ссылку на канал, попробуйте снова."+getExampleChannelUrl())
 		botMsg.ParseMode = tgbotapi.ModeHTML
 		if err := b.sendMessage(userId, botMsg); err != nil {
 			return err
@@ -174,7 +174,7 @@ func adEventChannel(b *BotTelegram, msg *tgbotapi.Message) error {
 		msg.Text = "https://t.me/" + msg.Text[1:]
 	}
 
-	subChannel, err := subscriber_parser.Parse(msg.Text)
+	subChannel, err := subscriber.Parse(msg.Text)
 	if err != nil {
 		return err
 	}
@@ -331,12 +331,12 @@ func adEventDateEnd(b *BotTelegram, msg *tgbotapi.Message) error {
 	adEvent.DateEnd = msg.Text
 
 	// Сравнение даты размещения и удаления.
-	durationDateStart, err := sdk.ParseUserDateToTime(adEvent.DateStart)
+	durationDateStart, err := service.ParseUserDateToTime(adEvent.DateStart)
 	if err != nil {
 		return fmt.Errorf("error parse durationDateStart: %w", err)
 	}
 
-	durationDateEnd, err := sdk.ParseUserDateToTime(adEvent.DateEnd)
+	durationDateEnd, err := service.ParseUserDateToTime(adEvent.DateEnd)
 	if err != nil {
 		return fmt.Errorf("error parse durationDateEnd: %w", err)
 	}
@@ -398,7 +398,7 @@ func adEventUpdatePartner(b *BotTelegram, msg *tgbotapi.Message) error {
 	userId := msg.Chat.ID
 
 	if !models.RegxUrlType1.MatchString(msg.Text) && !models.RegxUrlType2.MatchString(msg.Text) {
-		botMsg := tgbotapi.NewMessage(userId, "Вы отправили некорректную ссылку на партнера, попробуйте снова." + getExamplePartnerUrl())
+		botMsg := tgbotapi.NewMessage(userId, "Вы отправили некорректную ссылку на партнера, попробуйте снова."+getExamplePartnerUrl())
 		botMsg.ParseMode = tgbotapi.ModeHTML
 		if err := b.sendMessage(userId, botMsg); err != nil {
 			return err
@@ -439,7 +439,7 @@ func adEventUpdateChannel(b *BotTelegram, msg *tgbotapi.Message) error {
 	userId := msg.Chat.ID
 
 	if !models.RegxUrlType1.MatchString(msg.Text) && !models.RegxUrlType2.MatchString(msg.Text) {
-		botMsg := tgbotapi.NewMessage(userId, "Вы отправили некорректную ссылку на канал, попробуйте снова." + getExampleChannelUrl())
+		botMsg := tgbotapi.NewMessage(userId, "Вы отправили некорректную ссылку на канал, попробуйте снова."+getExampleChannelUrl())
 		botMsg.ParseMode = tgbotapi.ModeHTML
 		if err := b.sendMessage(userId, botMsg); err != nil {
 			return err

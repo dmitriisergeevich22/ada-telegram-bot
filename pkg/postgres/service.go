@@ -1,8 +1,8 @@
-package postgresql
+package postgres
 
 import (
-	"AdaTelegramBot/internal/models"
-	"AdaTelegramBot/internal/sdk"
+	"ada-telegram-bot/pkg/models"
+	"ada-telegram-bot/pkg/service"
 	"database/sql"
 	"fmt"
 	"log"
@@ -325,9 +325,9 @@ func dbDateToUserDate(dbDate string) (userDate string, err error) {
 		return userDate, fmt.Errorf("dbDateToUserDate: error dbDateToTime: %w", err)
 	}
 
-	userDate, err = sdk.ParseTimeToUserDate(t)
+	userDate, err = service.ParseTimeToUserDate(t)
 	if err != nil {
-		return userDate, fmt.Errorf("dbDateToUserDate: error sdk.ParseTimeToUserDate: %w", err)
+		return userDate, fmt.Errorf("dbDateToUserDate: error service.ParseTimeToUserDate: %w", err)
 	}
 
 	return userDate, nil
@@ -335,9 +335,9 @@ func dbDateToUserDate(dbDate string) (userDate string, err error) {
 
 // Форматирование даты пользователя в формат БД.
 func userDateToDbDate(userDate string) (dbDate string, err error) {
-	t, err := sdk.ParseUserDateToTime(userDate)
+	t, err := service.ParseUserDateToTime(userDate)
 	if err != nil {
-		return dbDate, fmt.Errorf("userDateToDbDate: error sdk.ParseUserDateToTime: %w", err)
+		return dbDate, fmt.Errorf("userDateToDbDate: error service.ParseUserDateToTime: %w", err)
 	}
 
 	dbDate, err = timeToDbDate(t)

@@ -1,7 +1,7 @@
 package telegram
 
 import (
-	"AdaTelegramBot/internal/models"
+	"ada-telegram-bot/pkg/models"
 	"fmt"
 	"log"
 	"os"

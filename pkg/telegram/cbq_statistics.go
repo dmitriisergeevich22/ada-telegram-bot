@@ -1,8 +1,8 @@
 package telegram
 
 import (
-	"AdaTelegramBot/internal/models"
-	"AdaTelegramBot/internal/sdk"
+	"ada-telegram-bot/pkg/models"
+	"ada-telegram-bot/pkg/service"
 	"fmt"
 	"strings"
 
@@ -43,21 +43,21 @@ func cbqStatisticsBrief(b *BotTelegram, cbq *tgbotapi.CallbackQuery) error {
 	text := "<b>🕐 Выберите период:</b>"
 	keyboard := tgbotapi.NewInlineKeyboardMarkup(
 		tgbotapi.NewInlineKeyboardRow(
-			tgbotapi.NewInlineKeyboardButtonData("Вчера", "statistics.brief.select?"+sdk.ParseTimesToRangeDate(sdk.GetTimeRangeYesterday())),
-			tgbotapi.NewInlineKeyboardButtonData("Сегодня", "statistics.brief.select?"+sdk.ParseTimesToRangeDate(sdk.GetTimeRangeToday())),
-			tgbotapi.NewInlineKeyboardButtonData("Завтра", "statistics.brief.select?"+sdk.ParseTimesToRangeDate(sdk.GetTimeRangeTomorrow())),
+			tgbotapi.NewInlineKeyboardButtonData("Вчера", "statistics.brief.select?"+service.ParseTimesToRangeDate(service.GetTimeRangeYesterday())),
+			tgbotapi.NewInlineKeyboardButtonData("Сегодня", "statistics.brief.select?"+service.ParseTimesToRangeDate(service.GetTimeRangeToday())),
+			tgbotapi.NewInlineKeyboardButtonData("Завтра", "statistics.brief.select?"+service.ParseTimesToRangeDate(service.GetTimeRangeTomorrow())),
 		),
 		tgbotapi.NewInlineKeyboardRow(
-			tgbotapi.NewInlineKeyboardButtonData("Текущая неделя", "statistics.brief.select?"+sdk.ParseTimesToRangeDate(sdk.GetTimeRangeThisWeek())),
+			tgbotapi.NewInlineKeyboardButtonData("Текущая неделя", "statistics.brief.select?"+service.ParseTimesToRangeDate(service.GetTimeRangeThisWeek())),
 		),
 		tgbotapi.NewInlineKeyboardRow(
-			tgbotapi.NewInlineKeyboardButtonData("Текущий месяц", "statistics.brief.select?"+sdk.ParseTimesToRangeDate(sdk.GetTimeRangeThisMonth())),
+			tgbotapi.NewInlineKeyboardButtonData("Текущий месяц", "statistics.brief.select?"+service.ParseTimesToRangeDate(service.GetTimeRangeThisMonth())),
 		),
 		tgbotapi.NewInlineKeyboardRow(
-			tgbotapi.NewInlineKeyboardButtonData("Текущий год", "statistics.brief.select?"+sdk.ParseTimesToRangeDate(sdk.GetTimeRangeThisYear())),
+			tgbotapi.NewInlineKeyboardButtonData("Текущий год", "statistics.brief.select?"+service.ParseTimesToRangeDate(service.GetTimeRangeThisYear())),
 		),
 		tgbotapi.NewInlineKeyboardRow(
-			tgbotapi.NewInlineKeyboardButtonData("За все время", "statistics.brief.select?"+sdk.ParseTimesToRangeDate(models.MinTime, models.MaxTime)),
+			tgbotapi.NewInlineKeyboardButtonData("За все время", "statistics.brief.select?"+service.ParseTimesToRangeDate(models.MinTime, models.MaxTime)),
 		),
 		tgbotapi.NewInlineKeyboardRow(
 			tgbotapi.NewInlineKeyboardButtonData("Назад", "statistics"),
@@ -86,17 +86,16 @@ func cbqStatisticsBriefSelect(b *BotTelegram, cbq *tgbotapi.CallbackQuery) error
 		return err
 	}
 
-
 	dataSlice := strings.Split(data, ";")
 	if len(dataSlice) != 2 {
 		return fmt.Errorf("dataSlice incorrect. dataSlice: %v", dataSlice)
 	}
 
-	startDate, err := sdk.ParseUserDateToTime(dataSlice[0])
+	startDate, err := service.ParseUserDateToTime(dataSlice[0])
 	if err != nil {
 		return err
 	}
-	endDate, err := sdk.ParseUserDateToTime(dataSlice[1])
+	endDate, err := service.ParseUserDateToTime(dataSlice[1])
 	if err != nil {
 		return err
 	}

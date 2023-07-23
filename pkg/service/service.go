@@ -1,4 +1,4 @@
-package sdk
+package service
 
 // Функция для разбивки среза на несколько срезов по указанному размеру.
 func ChunkSlice[T any](slice []T, size int) [][]T {

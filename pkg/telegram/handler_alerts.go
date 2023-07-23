@@ -1,9 +1,9 @@
 package telegram
 
 import (
-	"AdaTelegramBot/internal/models"
-	"AdaTelegramBot/internal/sdk"
-	"AdaTelegramBot/internal/subscriber_parser"
+	"ada-telegram-bot/pkg/models"
+	"ada-telegram-bot/pkg/service"
+	"ada-telegram-bot/pkg/subscriber"
 	"fmt"
 	"log"
 	"math"
@@ -31,8 +31,8 @@ func (b *BotTelegram) alertTicker() error {
 func handlerAlertsTick(b *BotTelegram) error {
 	var cashAdEvents []models.AdEvent
 
-	timeStart, _ := sdk.GetTimeRangeToday()
-	_, timeEnd := sdk.GetTimeRangeTomorrow()
+	timeStart, _ := service.GetTimeRangeToday()
+	_, timeEnd := service.GetTimeRangeTomorrow()
 	cashAdEvents, err := b.db.GetRangeAdEvents(models.TypeAny, timeStart, timeEnd)
 	if err != nil {
 		return fmt.Errorf("handlerAlertsTick: error GetRangeAdEvents: %w", err)
@@ -62,7 +62,7 @@ func handlerAlertsTick(b *BotTelegram) error {
 
 // Оповещение о размещении рекламы.
 func aletrPosting(b *BotTelegram, aE *models.AdEvent) error {
-	timeDateStart, err := sdk.ParseUserDateToTime(aE.DateStart)
+	timeDateStart, err := service.ParseUserDateToTime(aE.DateStart)
 	if err != nil {
 		return fmt.Errorf("aletrPosting: error ParseUserDateToTime: %w", err)
 	}
@@ -74,7 +74,7 @@ func aletrPosting(b *BotTelegram, aE *models.AdEvent) error {
 
 	// Сохранение подписчиков на момент выхода рекламы.
 	if int64(math.Abs(time.Since(timeDateStart).Minutes())) == 0 {
-		currentSub, err := subscriber_parser.Parse(aE.Channel)
+		currentSub, err := subscriber.Parse(aE.Channel)
 		if err != nil {
 			return fmt.Errorf("aletrPosting: error subscriber_parser.Parse: %w", err)
 		}
@@ -107,7 +107,7 @@ func aletrPosting(b *BotTelegram, aE *models.AdEvent) error {
 
 // Оповещение о удалении рекламы.
 func aletrDelete(b *BotTelegram, aE *models.AdEvent) error {
-	timeDateEnd, err := sdk.ParseUserDateToTime(aE.DateEnd)
+	timeDateEnd, err := service.ParseUserDateToTime(aE.DateEnd)
 	if err != nil {
 		return fmt.Errorf("aletrDelete: error ParseUserDateToTime: %w", err)
 	}
@@ -119,7 +119,7 @@ func aletrDelete(b *BotTelegram, aE *models.AdEvent) error {
 
 	// Сохранение подписчиков на момент завершения рекламы.
 	if int64(math.Abs(time.Since(timeDateEnd).Minutes())) == 0 {
-		currentSub, err := subscriber_parser.Parse(aE.Channel)
+		currentSub, err := subscriber.Parse(aE.Channel)
 		if err != nil {
 			return fmt.Errorf("aletrDelete: error subscriber_parser.Parse: %w", err)
 		}

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"AdaTelegramBot/internal/postgresql"
-	"AdaTelegramBot/internal/telegram"
+	"ada-telegram-bot/pkg/postgres"
+	"ada-telegram-bot/pkg/telegram"
 	"log"
 	"os"
 
@@ -26,10 +26,10 @@ func main() {
 	}
 
 	// Подключение к БД.
-	db := postgresql.NewDB()
+	db := postgres.NewDB()
 
 	// Инициализация телеграмм бота.
-	tgBot, err := telegram.NewBotTelegram(postgresql.NewTelegramBotDB(db))
+	tgBot, err := telegram.NewBotTelegram(postgres.NewTelegramBotDB(db))
 	if err != nil {
 		log.Println("main: error telegram.NewBotTelegram: ", err)
 		return

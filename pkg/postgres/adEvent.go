@@ -1,7 +1,7 @@
-package postgresql
+package postgres
 
 import (
-	"AdaTelegramBot/internal/models"
+	"ada-telegram-bot/pkg/models"
 	"time"
 
 	"database/sql"

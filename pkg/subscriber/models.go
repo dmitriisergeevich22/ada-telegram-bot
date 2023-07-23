@@ -1,4 +1,4 @@
-package subscriber_parser
+package subscriber
 
 type UrlType string
 
