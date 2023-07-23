@@ -108,7 +108,7 @@ type DataForStatistics struct {
 }
 
 // Сессия пользователя.
-type Session struct {
+type OldSession struct {
 	DomainPath string                 // Наименование основной цепочки.
 	Step       int64                  // Шаг в цепочке.
 	StateMsg   string                 // Состояние ожидающих данных в Msg.

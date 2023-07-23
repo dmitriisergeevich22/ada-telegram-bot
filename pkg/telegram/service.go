@@ -14,7 +14,7 @@ import (
 type BotTelegram struct {
 	bot                  *tgbotapi.BotAPI
 	db                   models.TelegramBotDB
-	sessions             map[int64]*models.Session
+	sessions             map[int64]*models.OldSession
 	adEventsCache        map[int64][][]models.AdEvent // Хэш-таблица полученных из БД событий.
 	adEventCreatingCache map[int64]*models.AdEvent    // Хэш-таблица создаваемых ad событий.
 }
@@ -30,7 +30,7 @@ func NewBotTelegram(db models.TelegramBotDB) (*BotTelegram, error) {
 	tgBot := BotTelegram{
 		bot:                  bot,
 		db:                   db,
-		sessions:             make(map[int64]*models.Session),
+		sessions:             make(map[int64]*models.OldSession),
 		adEventsCache:        make(map[int64][][]models.AdEvent),
 		adEventCreatingCache: make(map[int64]*models.AdEvent),
 	}
@@ -230,7 +230,7 @@ func (b *BotTelegram) sendAlertMessage(userId int64, c tgbotapi.Chattable) error
 
 // Иницализация сессии
 func (b *BotTelegram) initSessions(userId int64) {
-	b.sessions[userId] = &models.Session{
+	b.sessions[userId] = &models.OldSession{
 		Cache: make(map[string]interface{}),
 	}
 }
