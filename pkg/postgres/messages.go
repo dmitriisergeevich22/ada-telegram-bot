@@ -5,7 +5,7 @@ import (
 )
 
 // Добавляет ID сообщения пользователя.
-func (t *TelegramBotDB) AddUserMessageId(userId int64, messageId int) (err error) {
+func (t *TelegramBotDB) AddUserMessageId(userId int64, messageId int, typeMessage string) (err error) {
 	tx := t.db.MustBegin()
 	defer func() {
 		if err != nil {
@@ -15,7 +15,8 @@ func (t *TelegramBotDB) AddUserMessageId(userId int64, messageId int) (err error
 		}
 	}()
 
-	sql := fmt.Sprintf(`INSERT INTO public.%s (id, user_id) values ($1, $2) ON CONFLICT DO NOTHING;`, messageIdsTable)
+	// CONFLICT DO NOTHING - позволяет избежать замены тип сообщение при использовании callBackQuery
+	sql := fmt.Sprintf(`INSERT INTO public.%s (id, user_id, type_message) values ($1, $2, $3) ON CONFLICT DO NOTHING;`, messageIdsTable)
 	if _, err := tx.Exec(sql, messageId, userId); err != nil {
 		return fmt.Errorf("error insert messageId: %w", err)
 	}
