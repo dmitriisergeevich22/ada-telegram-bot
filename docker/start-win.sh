@@ -12,4 +12,4 @@ docker rm ada-db
 docker rmi ada-telegram-bot-app
 
 # Запускаем docker-compose в фоновом режиме и выводим логи в файл
-start docker compose -p ada-telegram-bot up -d
+docker compose -p ada-telegram-bot up > logs.log
