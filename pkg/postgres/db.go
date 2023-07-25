@@ -17,6 +17,7 @@ const (
 	usersTable      = "users"       // Пользователи.
 	adEventsTable   = "ad_events"   // AD события.
 	messageIdsTable = "message_ids" // ID сообщений пользователей.
+	sessionsTable   = "sessions"    // Таблица сессий
 )
 
 func NewDB() (db *sqlx.DB, err error) {

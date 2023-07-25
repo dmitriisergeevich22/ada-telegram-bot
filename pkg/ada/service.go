@@ -126,7 +126,6 @@ func (a *AdaBot) handlerSession(userId int64, messageId int, data string) {
 		return
 	}
 
-
 	switch {
 	// Обработка функции
 	case session.F != nil:
