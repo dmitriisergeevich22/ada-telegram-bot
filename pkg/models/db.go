@@ -60,7 +60,7 @@ type AdEventDB interface {
 
 type MessageDB interface {
 	// Добавление messageId пользователя.
-	AddUserMessageId(userId int64, messageId int) error
+	AddUserMessageId(userId int64, messageId int, typeMessage string) error
 	// Удаление messageId пользователя.
 	DeleteUsermessageId(messageId int) error
 	// Возвращает список messageIds пользователя.

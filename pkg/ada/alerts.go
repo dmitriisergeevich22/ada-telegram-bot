@@ -36,7 +36,7 @@ func sendAlertMessage(a *AdaBot, userId int64, c tgbotapi.Chattable) error {
 	}
 
 	// Добавления ID сообщения в бд.
-	if err := a.db.AddUserMessageId(userId, botMsg.MessageID); err != nil {
+	if err := a.db.AddUserMessageId(userId, botMsg.MessageID, "alert"); err != nil {
 		return err
 	}
 

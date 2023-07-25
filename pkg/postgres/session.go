@@ -63,7 +63,8 @@ func (t *TelegramBotDB) DeleteLastSession(userId int64) error {
 		}
 	}()
 
-	query := fmt.Sprintf(`DELETE FROM public.%s WHERE uuid=(SELECT uuid FROM public.%s WHERE user_id=$1 ORDER BY create_at DESC LIMIT 1);`, sessionsTable)
+	query := fmt.Sprintf(`DELETE FROM public.%s 
+	WHERE uuid=(SELECT uuid FROM public.%s WHERE user_id=$1 ORDER BY create_at DESC LIMIT 1);`, sessionsTable, sessionsTable)
 	if _, err := tx.Exec(query, userId); err != nil {
 		return fmt.Errorf("error delete last session: %w", err)
 	}
@@ -83,7 +84,8 @@ func (t *TelegramBotDB) DeleteAllSession(userId int64) error {
 		}
 	}()
 
-	query := fmt.Sprintf(`DELETE FROM public.%s WHERE uuid=(SELECT uuid FROM public.%s WHERE user_id=$1);`, sessionsTable)
+	query := fmt.Sprintf(`DELETE FROM public.%s 
+	WHERE uuid=(SELECT uuid FROM public.%s WHERE user_id=$1);`, sessionsTable, sessionsTable)
 	if _, err := tx.Exec(query, userId); err != nil {
 		return fmt.Errorf("error delete last session: %w", err)
 	}

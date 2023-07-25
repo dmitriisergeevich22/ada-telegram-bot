@@ -89,7 +89,7 @@ func (a *AdaBot) handler(updates tgbotapi.UpdatesChannel) error {
 		}
 
 		// Добавление сообщения пользователя в БД.
-		if err := a.db.AddUserMessageId(userId, msg.MessageID); err != nil {
+		if err := a.db.AddUserMessageId(userId, msg.MessageID, "user"); err != nil {
 			log.Printf("user_id: %d; error db.AddUserMessageId: %v", userId, err)
 			continue
 		}
@@ -161,7 +161,7 @@ func (a *AdaBot) sendMessage(userId int64, c tgbotapi.Chattable) error {
 		return err
 	}
 
-	if err := a.db.AddUserMessageId(userId, botMsg.MessageID); err != nil {
+	if err := a.db.AddUserMessageId(userId, botMsg.MessageID, "bot"); err != nil {
 		return err
 	}
 
@@ -179,10 +179,10 @@ func (a *AdaBot) createUser(msg *tgbotapi.Message) error {
 
 // Сброс сессии.
 func (a *AdaBot) start(userId int64) error {
-	// Очистка сессий пользователя
-	// if err := a.resetSession(userId); err != nil {
-	// 	return fmt.Errorf("error db.resetSession: %w", err)
-	// }
+	// Создание стартовой сессии
+	if err := a.resetSession(userId); err != nil {
+		return fmt.Errorf("error resetSession: %w", err)
+	}
 
 	// Очистка чата.
 	if err := a.cleareChat(userId); err != nil {
@@ -208,9 +208,8 @@ func (a *AdaBot) start(userId int64) error {
 	return nil
 }
 
-// Отправка startMessage.
+// Отправка startMessage
 func (a *AdaBot) sendStartMessage(userId int64) error {
-
 	text := `📓 <b>Возможности бота:</b>`
 	keyboard := tgbotapi.NewInlineKeyboardMarkup(
 		tgbotapi.NewInlineKeyboardRow(
@@ -237,7 +236,7 @@ func (a *AdaBot) sendStartMessage(userId int64) error {
 	return nil
 }
 
-// Отправка adMessage.
+// Отправка adMessage
 // TODO: не реализован
 func (a *AdaBot) sendAdMessage(userId int64) error {
 	// Создание botMsg adMessage.
@@ -258,7 +257,7 @@ func (a *AdaBot) sendAdMessage(userId int64) error {
 	}
 
 	// Сохранение adMessageId.
-	if err := a.db.AddUserMessageId(userId, newAdMessage.MessageID); err != nil {
+	if err := a.db.AddUserMessageId(userId, newAdMessage.MessageID, "ad"); err != nil {
 		return err
 	}
 
@@ -303,7 +302,7 @@ func (a *AdaBot) sendErrorMessage(userId int64) error {
 	return nil
 }
 
-// Очистка сообщения.
+// Очистка сообщения
 func (a *AdaBot) cleareMessage(userId int64, messageId int) error {
 	if err := a.db.DeleteUsermessageId(messageId); err != nil {
 		return err
@@ -318,13 +317,13 @@ func (a *AdaBot) cleareMessage(userId int64, messageId int) error {
 
 // Очистка чата
 func (a *AdaBot) cleareChat(userId int64) error {
-	// Получение всех messageId.
+	// Получение всех messageId
 	messageIds, err := a.db.GetUserMessageIds(userId)
 	if err != nil {
 		return err
 	}
 
-	// Удаление всех сообщений кроме.
+	// Удаление всех сообщений
 	for _, messageId := range messageIds {
 		a.cleareMessage(userId, messageId)
 	}
