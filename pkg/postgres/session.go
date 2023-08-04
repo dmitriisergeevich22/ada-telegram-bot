@@ -43,7 +43,7 @@ func (t *TelegramBotDB) GetLastSession(userId int64) (s *models.Session, err err
 	}()
 
 	var session models.Session
-	query := fmt.Sprintf(`SELECT session FROM public.%s WHERE user_id=$1 ORDER BY create_at DESC LIMIT 1;`, sessionsTable)
+	query := fmt.Sprintf(`SELECT session FROM public.%s WHERE user_id=$1 ORDER BY created_at DESC LIMIT 1;`, sessionsTable)
 	if err := tx.QueryRow(query, userId).Scan(&session); err != nil {
 		return nil, fmt.Errorf("error select last session: %w", err)
 	}
@@ -64,7 +64,7 @@ func (t *TelegramBotDB) DeleteLastSession(userId int64) error {
 	}()
 
 	query := fmt.Sprintf(`DELETE FROM public.%s 
-	WHERE uuid=(SELECT uuid FROM public.%s WHERE user_id=$1 ORDER BY create_at DESC LIMIT 1);`, sessionsTable, sessionsTable)
+	WHERE uuid=(SELECT uuid FROM public.%s WHERE user_id=$1 ORDER BY created_at DESC LIMIT 1);`, sessionsTable, sessionsTable)
 	if _, err := tx.Exec(query, userId); err != nil {
 		return fmt.Errorf("error delete last session: %w", err)
 	}

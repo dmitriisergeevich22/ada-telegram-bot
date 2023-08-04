@@ -323,7 +323,7 @@ func (a *AdaBot) cleareChat(userId int64) error {
 		return err
 	}
 
-	// Удаление всех сообщений
+	// Удаление всех сообщений кроме последнего
 	for _, messageId := range messageIds {
 		a.cleareMessage(userId, messageId)
 	}
@@ -356,10 +356,13 @@ func (a *AdaBot) resetSession(userId int64) error {
 		Data: make(map[string]interface{}),
 	}
 
-	if _, err := a.db.SaveSassion(userId, &startSession); err != nil {
-		return fmt.Errorf("error db.AddSession: %w", err)
-	}
+	// Сохранение в локальные сессии
 	a.sessions[userId] = &startSession
+
+	if err := a.saveSession(userId); err != nil {
+		
+		return fmt.Errorf("error saveSession: %w", err)
+	}
 
 	return nil
 }

@@ -1,69 +1,64 @@
 failed to get console mode for stdout: The handle is invalid.
 #1 [app internal] load .dockerignore
-#1 transferring context: 2B 0.0s done
-#1 DONE 0.1s
+#1 transferring context: 2B done
+#1 DONE 0.0s
 
 #2 [app internal] load build definition from dockerfile
 #2 transferring dockerfile: 127B 0.0s done
-#2 DONE 0.1s
+#2 DONE 0.0s
 
 #3 [app internal] load metadata for docker.io/library/golang:1.20
-#3 ...
+#3 DONE 0.8s
 
-#4 [app auth] library/golang:pull token for registry-1.docker.io
+#4 [app 1/4] FROM docker.io/library/golang:1.20@sha256:cfc9d1b07b1ef4f7a4571f0b60a99646a92ef76adb7d9943f4cb7b606c6554e2
 #4 DONE 0.0s
 
-#3 [app internal] load metadata for docker.io/library/golang:1.20
-#3 DONE 1.8s
+#5 [app internal] load build context
+#5 transferring context: 23.80kB 0.1s done
+#5 DONE 0.1s
 
-#5 [app 1/4] FROM docker.io/library/golang:1.20@sha256:cfc9d1b07b1ef4f7a4571f0b60a99646a92ef76adb7d9943f4cb7b606c6554e2
-#5 DONE 0.0s
+#6 [app 2/4] WORKDIR /ada
+#6 CACHED
 
-#6 [app internal] load build context
-#6 transferring context: 27.95kB 0.1s done
-#6 DONE 0.1s
+#7 [app 3/4] COPY . .
+#7 DONE 0.2s
 
-#7 [app 2/4] WORKDIR /ada
-#7 CACHED
+#8 [app 4/4] RUN go build -o ada ./cmd/main.go
+#8 0.398 go: downloading github.com/spf13/viper v1.16.0
+#8 0.432 go: downloading github.com/jmoiron/sqlx v1.3.5
+#8 0.435 go: downloading github.com/lib/pq v1.10.9
+#8 0.442 go: downloading github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
+#8 0.474 go: downloading github.com/PuerkitoBio/goquery v1.8.1
+#8 0.679 go: downloading golang.org/x/net v0.10.0
+#8 0.679 go: downloading github.com/andybalholm/cascadia v1.3.1
+#8 0.687 go: downloading github.com/spf13/cast v1.5.1
+#8 0.687 go: downloading github.com/fsnotify/fsnotify v1.6.0
+#8 0.687 go: downloading github.com/spf13/afero v1.9.5
+#8 0.687 go: downloading github.com/mitchellh/mapstructure v1.5.0
+#8 0.690 go: downloading github.com/spf13/jwalterweatherman v1.1.0
+#8 0.750 go: downloading github.com/spf13/pflag v1.0.5
+#8 0.754 go: downloading github.com/subosito/gotenv v1.4.2
+#8 0.756 go: downloading github.com/hashicorp/hcl v1.0.0
+#8 0.785 go: downloading gopkg.in/ini.v1 v1.67.0
+#8 0.813 go: downloading github.com/magiconair/properties v1.8.7
+#8 0.837 go: downloading github.com/pelletier/go-toml/v2 v2.0.8
+#8 0.850 go: downloading gopkg.in/yaml.v3 v3.0.1
+#8 0.917 go: downloading golang.org/x/sys v0.8.0
+#8 0.919 go: downloading golang.org/x/text v0.9.0
+#8 DONE 18.8s
 
-#8 [app 3/4] COPY . .
-#8 DONE 0.2s
-
-#9 [app 4/4] RUN go build -o ada ./cmd/main.go
-#9 0.415 go: downloading github.com/spf13/viper v1.16.0
-#9 0.448 go: downloading github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
-#9 0.450 go: downloading github.com/jmoiron/sqlx v1.3.5
-#9 0.462 go: downloading github.com/lib/pq v1.10.9
-#9 0.475 go: downloading github.com/PuerkitoBio/goquery v1.8.1
-#9 1.070 go: downloading github.com/andybalholm/cascadia v1.3.1
-#9 1.070 go: downloading golang.org/x/net v0.10.0
-#9 1.090 go: downloading github.com/fsnotify/fsnotify v1.6.0
-#9 1.092 go: downloading github.com/mitchellh/mapstructure v1.5.0
-#9 1.102 go: downloading github.com/spf13/afero v1.9.5
-#9 1.102 go: downloading github.com/spf13/cast v1.5.1
-#9 1.154 go: downloading github.com/spf13/jwalterweatherman v1.1.0
-#9 1.215 go: downloading github.com/spf13/pflag v1.0.5
-#9 1.297 go: downloading github.com/subosito/gotenv v1.4.2
-#9 1.303 go: downloading github.com/hashicorp/hcl v1.0.0
-#9 1.316 go: downloading gopkg.in/ini.v1 v1.67.0
-#9 1.406 go: downloading github.com/magiconair/properties v1.8.7
-#9 1.407 go: downloading github.com/pelletier/go-toml/v2 v2.0.8
-#9 1.451 go: downloading gopkg.in/yaml.v3 v3.0.1
-#9 1.508 go: downloading golang.org/x/sys v0.8.0
-#9 1.541 go: downloading golang.org/x/text v0.9.0
-#9 DONE 28.1s
-
-#10 [app] exporting to image
-#10 exporting layers
-#10 exporting layers 1.6s done
-#10 writing image sha256:0137c8e8ffbfab454bb4906da18c136a7863bba5a9a324dc72514dc4b96ab743 done
-#10 naming to docker.io/library/ada-telegram-bot-app 0.0s done
-#10 DONE 1.7s
+#9 [app] exporting to image
+#9 exporting layers
+#9 exporting layers 1.2s done
+#9 writing image sha256:49c80aab7b6e5034fa7dc5cbb36c9e638be0f2d73362acb35c96d7b91ca08778 done
+#9 naming to docker.io/library/ada-telegram-bot-app done
+#9 DONE 1.2s
 [1A[1B[0G[?25l[+] Running 0/0
  - Container ada-db  Creating[34m0.0s [0m
-[?25h[1A[1A[0G[?25l[+] Running 0/1
- - Container ada-db  Creating[34m0.1s [0m
-[?25h[1A[1A[0G[?25l[+] Running 2/1
+[?25h[1A[1A[0G[?25l[34m[+] Running 1/1[0m
+ [32m✔[0m Container ada-db   [32mCreated[0m[34m0.1s [0m
+ - Container ada-app  Creating[34m0.1s [0m
+[?25h[1A[1A[1A[0G[?25l[34m[+] Running 2/2[0m
  [32m✔[0m Container ada-db   [32mCreated[0m[34m0.1s [0m
  [32m✔[0m Container ada-app  [32mCreated[0m[34m0.1s [0m
 [?25hAttaching to ada-app, ada-db
@@ -71,3 +66,57 @@ ada-db   |
 ada-db   | PostgreSQL Database directory appears to contain a database; Skipping initialization
 ada-db   | 
 ada-db   | 
+failed to get console mode for stdout: The handle is invalid.
+failed to get console mode for stdout: The handle is invalid.
+[1A[1B[0G[?25l[+] Stopping 0/0
+ - Container ada-app  Stopping[34m0.1s [0m
+[?25h[1A[1A[0G[?25l[+] Stopping 0/1
+ - Container ada-app  Stopping[34m0.2s [0m
+[?25h[1A[1A[0G[?25l[+] Stopping 0/1
+ - Container ada-app  Stopping[34m0.3s [0m
+[?25h[1A[1A[0G[?25l[+] Stopping 0/1
+ - Container ada-app  Stopping[34m0.4s [0m
+[?25h[1A[1A[0G[?25l[+] Stopping 0/1
+ - Container ada-app  Stopping[34m0.5s [0m
+[?25h[1A[1A[0G[?25l[+] Stopping 0/1
+ - Container ada-app  Stopping[34m0.6s [0m
+[?25h[1A[1A[0G[?25l[+] Stopping 0/1
+ - Container ada-app  Stopping[34m0.7s [0m
+[?25h[1A[1A[0G[?25l[+] Stopping 0/1
+ - Container ada-app  Stopping[34m0.8s [0m
+[?25h[1A[1A[0G[?25l[+] Stopping 0/1
+ - Container ada-app  Stopping[34m0.9s [0m
+[?25h[1A[1A[0G[?25l[34m[+] Stopping 1/1[0m
+ [32m✔[0m Container ada-app  [32mStopped[0m[34m0.9s [0m
+ - Container ada-db   Stopping[34m0.0s [0m
+[?25h[1A[1A[1A[0G[?25l[+] Stopping 1/2
+ [32m✔[0m Container ada-app  [32mStopped[0m[34m0.9s [0m
+ - Container ada-db   Stopping[34m0.2s [0m
+[?25h[1A[1A[1A[0G[?25l[+] Stopping 1/2
+ [32m✔[0m Container ada-app  [32mStopped[0m[34m0.9s [0m
+ - Container ada-db   Stopping[34m0.2s [0m
+[?25h[1A[1A[1A[0G[?25l[+] Stopping 1/2
+ [32m✔[0m Container ada-app  [32mStopped[0m[34m0.9s [0m
+ - Container ada-db   Stopping[34m0.3s [0m
+[?25h[1A[1A[1A[0G[?25l[+] Stopping 1/2
+ [32m✔[0m Container ada-app  [32mStopped[0m[34m0.9s [0m
+ - Container ada-db   Stopping[34m0.5s [0m
+[?25h[1A[1A[1A[0G[?25l[+] Stopping 1/2
+ [32m✔[0m Container ada-app  [32mStopped[0m[34m0.9s [0m
+ - Container ada-db   Stopping[34m0.5s [0m
+[?25h[1A[1A[1A[0G[?25l[+] Stopping 1/2
+ [32m✔[0m Container ada-app  [32mStopped[0m[34m0.9s [0m
+ - Container ada-db   Stopping[34m0.7s [0m
+[?25h[1A[1A[1A[0G[?25l[+] Stopping 1/2
+ [32m✔[0m Container ada-app  [32mStopped[0m[34m0.9s [0m
+ - Container ada-db   Stopping[34m0.7s [0m
+[?25h[1A[1A[1A[0G[?25l[+] Stopping 1/2
+ [32m✔[0m Container ada-app  [32mStopped[0m[34m0.9s [0m
+ - Container ada-db   Stopping[34m0.8s [0m
+[?25h[1A[1A[1A[0G[?25l[+] Stopping 1/2
+ [32m✔[0m Container ada-app  [32mStopped[0m[34m0.9s [0m
+ - Container ada-db   Stopping[34m0.9s [0m
+[?25h[1A[1A[1A[0G[?25l[34m[+] Stopping 2/2[0m
+ [32m✔[0m Container ada-app  [32mStopped[0m[34m0.9s [0m
+ [32m✔[0m Container ada-db   [32mStopped[0m[34m1.0s [0m
+[?25h

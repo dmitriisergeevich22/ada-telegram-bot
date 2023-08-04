@@ -17,7 +17,7 @@ func (t *TelegramBotDB) AddUserMessageId(userId int64, messageId int, typeMessag
 
 	// CONFLICT DO NOTHING - позволяет избежать замены тип сообщение при использовании callBackQuery
 	sql := fmt.Sprintf(`INSERT INTO public.%s (id, user_id, type_message) values ($1, $2, $3) ON CONFLICT DO NOTHING;`, messageIdsTable)
-	if _, err := tx.Exec(sql, messageId, userId); err != nil {
+	if _, err := tx.Exec(sql, messageId, userId, typeMessage); err != nil {
 		return fmt.Errorf("error insert messageId: %w", err)
 	}
 
